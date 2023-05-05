@@ -26,36 +26,32 @@ class CameraScreen extends StatefulWidget {
 }
 
 class _CameraScreenState extends State<CameraScreen> {
-  late final ImagePicker picker;
-
   File? _imageFile;
 
-  @override
-  void initState() {
-    super.initState();
-    picker = ImagePicker();
-    _getImage();
-  }
-
   Future<void> _getImage() async {
+    final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.camera);
-    if (image != null) {
-      setState(() {
-        _imageFile = File(image.path);
-      });
-    }
+    setState(() {
+      _imageFile = File(image!.path);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _imageFile == null
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : Center(
-              child: Image.file(_imageFile!),
-            ),
+      appBar: AppBar(
+        title: const Text('Camera App'),
+      ),
+      body: Center(
+        child: _imageFile == null
+            ? const Text('No image selected.')
+            : Image.file(_imageFile!),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _getImage,
+        tooltip: 'Take Photo',
+        child: const Icon(Icons.camera_alt),
+      ),
     );
   }
 }
