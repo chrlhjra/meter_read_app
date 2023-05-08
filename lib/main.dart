@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 void main() {
+  const app = MyApp();
+  print(app);
   runApp(const MyApp());
 }
 
