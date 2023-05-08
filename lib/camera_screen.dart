@@ -27,13 +27,35 @@ class _CameraScreenState extends State<CameraScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Camera App'),
+        backgroundColor: const Color.fromRGBO(0, 108, 133, 1),
       ),
       body: _imageFiles.isEmpty
           ? const Center(child: Text('No images selected.'))
           : ListView.builder(
               itemCount: _imageFiles.length,
               itemBuilder: (BuildContext context, int index) {
-                return Image.file(_imageFiles[index]);
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => Scaffold(
+                          appBar: AppBar(
+                            title: Text(_imageFiles[index].path),
+                            backgroundColor:
+                                const Color.fromRGBO(0, 108, 133, 1),
+                          ),
+                          body: Center(
+                            child: Image.file(_imageFiles[index]),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  child: ListTile(
+                    title: Text(_imageFiles[index].path.split('/').last),
+                  ),
+                );
               },
             ),
       floatingActionButton: FloatingActionButton(
